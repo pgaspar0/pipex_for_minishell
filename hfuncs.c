@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   hfuncs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgaspar <pgaspar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gamekiller2111 <gamekiller2111@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 19:05:09 by pgaspar           #+#    #+#             */
-/*   Updated: 2024/11/15 19:31:32 by pgaspar          ###   ########.fr       */
+/*   Updated: 2024/11/16 04:35:34 by gamekiller2      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+// pega o caminho do executavel
 char	*get_caminho(char **path_copy, char **command)
 {
 	int		i;
@@ -32,6 +33,7 @@ char	*get_caminho(char **path_copy, char **command)
 	return (NULL);
 }
 
+// executa o primeiro comando e redireciona pela primeira vez para a pipe
 void	cuta_the_first(char **command, char **envp, int *pipe_fd, int fd)
 {
 	char	*caminho;
@@ -56,6 +58,7 @@ void	cuta_the_first(char **command, char **envp, int *pipe_fd, int fd)
 	execve(caminho, command, envp);
 }
 
+// redireciona de uma lado da pipe para outro de formas a cada processo transferir a informação um para o outro
 void	cuta_in_between(char **command, char **envp, int *pipe_fd)
 {
 	char	*caminho;
@@ -73,17 +76,18 @@ void	cuta_in_between(char **command, char **envp, int *pipe_fd)
 		exit(1);
 	}
 	dup2(pipe_fd[0], 0);
-	dup2(pipe[1], 1);
+	dup2(pipe_fd[1], 1);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
 	execve(caminho, command, envp);
 }
 
+// redireciona o resultado do ultimo comando para o ficheiro de destino
 void	cuta_the_second(char **command, char **envp, int *pipe_fd, int fd)
 {
-	char *caminho;
-	char *path;
-	char **path_copy;
+	char	*caminho;
+	char	*path;
+	char	**path_copy;
 
 	path = getenv("PATH");
 	path_copy = ft_split(path, ':');

@@ -23,5 +23,6 @@
 
 void	cuta_the_first(char **command, char **envp, int *pipe_fd, int fd);
 void	cuta_the_second(char **command, char **envp, int *pipe_fd, int fd);
+void	cuta_in_between(char **command, char **envp, int *pipe_fd);
 
 #endif

@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgaspar <pgaspar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gamekiller2111 <gamekiller2111@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:47:55 by pgaspar           #+#    #+#             */
-/*   Updated: 2024/11/15 19:35:41 by pgaspar          ###   ########.fr       */
+/*   Updated: 2024/11/16 04:33:00 by gamekiller2      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
+// implementei a ideia principal das múltiplas pipelines
+// por agora com erro, dá loop infinito ao executar
 int	main(int ac, char *av[], char *envp[])
 {
 	int		i;
 	int		fpid;
 	int		fd[2];
 	int		pipe_fd[2];
-	char	**first_command;
-	char	**second_command;
+	char	**last_command;
 
 	if (pipe(pipe_fd) == -1)
 	{
@@ -30,7 +31,7 @@ int	main(int ac, char *av[], char *envp[])
 	last_command = ft_split(av[ac - 2], ' ');
 	fd[0] = open(av[1], O_RDONLY);
 	fd[1] = open(av[ac - 1], O_CREAT | O_RDWR | O_TRUNC);
-	while (i < ac - 1)
+	while (i < ac - 2)
 	{
 		fpid = fork();
 		if (fpid == 0)
@@ -44,12 +45,16 @@ int	main(int ac, char *av[], char *envp[])
 	}
 	fpid = fork();
 	if (fpid == 0)
-		cuta_the_first(first_command, envp, pipe_fd, fd[0]);
+	{
+		// cuta_in_between(ft_split(av[i], ' '), envp, pipe_fd);
+		cuta_the_second(last_command, envp, pipe_fd, fd[1]);
+	}
 	else
 	{
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
 		waitpid(fpid, NULL, 0);
-		cuta_the_second(last_command_command, envp, pipe_fd, fd[1]);
+		// cuta_the_second(last_command, envp, pipe_fd, fd[1]);
 	}
-	i++;
 	return (0);
 }
