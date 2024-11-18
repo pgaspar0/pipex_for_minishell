@@ -6,7 +6,7 @@
 /*   By: pgaspar <pgaspar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:49:03 by pgaspar           #+#    #+#             */
-/*   Updated: 2024/11/15 19:08:54 by pgaspar          ###   ########.fr       */
+/*   Updated: 2024/11/18 12:18:09 by pgaspar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <unistd.h>
 
 void	cuta_the_first(char **command, char **envp, int *pipe_fd, int fd);
-void	cuta_the_second(char **command, char **envp, int *pipe_fd, int fd);
+void	cuta_the_second(char **command, char **envp, int fd);
 void	cuta_in_between(char **command, char **envp, int *pipe_fd);
 
 #endif
