@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgaspar <pgaspar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jorcarva <jorcarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:47:55 by pgaspar           #+#    #+#             */
-/*   Updated: 2024/11/21 19:23:58 by pgaspar          ###   ########.fr       */
+/*   Updated: 2024/11/22 10:13:20 by jorcarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,15 @@ static void	keeping_up_main(char *av[], int *fd, int *i, int ac)
 	else
 	{
 		fd[0] = open(av[1], O_RDONLY);
+		if (fd[0] == -1)
+			exit(EXIT_FAILURE);
 		dup2(fd[0], 0);
 		fd[1] = open(av[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
+		if (fd[1] == -1)
+		{
+			close(fd[0]);
+			exit(EXIT_FAILURE);
+		}
 		*i = 2;
 	}
 }
@@ -62,7 +69,8 @@ int	main(int ac, char *av[], char *envp[])
 	char	**command;
 	char	**last_command;
 
-	keeping_up_main(av, fd, &i, ac);
+	if (ac)
+		keeping_up_main(av, fd, &i, ac);
 	last_command = ft_split(av[ac - 2], ' ');
 	while (i < ac - 2)
 	{
