@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   hfuncs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgaspar <pgaspar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jorcarva <jorcarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 19:05:09 by pgaspar           #+#    #+#             */
-/*   Updated: 2024/11/18 18:08:07 by pgaspar          ###   ########.fr       */
+/*   Updated: 2024/11/21 12:51:02 by jorcarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-//implementa a logica principal e deixa o output do penultimo comando na stdin
+// implementa a logica principal e deixa o output do penultimo comando na stdin
 void	forka(char **command, char **envp)
 {
 	int	fpid;
@@ -55,7 +55,8 @@ char	*get_caminho(char **path_copy, char **command)
 	return (NULL);
 }
 
-// redireciona de uma lado da pipe para outro de formas a cada processo transferir a informação um para o outro
+// redireciona de uma lado da pipe para outro de formas a cada 
+// processo transferir a informação um para o outro
 void	cuta_in_between(char **command, char **envp, int *pipe_fd)
 {
 	char	*caminho;
@@ -94,7 +95,6 @@ void	cuta_the_second(char **command, char **envp, int fd)
 		free_matrix(command);
 		exit(1);
 	}
-	// dup2(pipe_fd[0], 0);
 	dup2(fd, 1);
 	close(fd);
 	execve(caminho, command, envp);

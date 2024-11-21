@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pgaspar <pgaspar@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jorcarva <jorcarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:47:55 by pgaspar           #+#    #+#             */
-/*   Updated: 2024/11/20 18:22:50 by pgaspar          ###   ########.fr       */
+/*   Updated: 2024/11/21 18:30:52 by jorcarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,23 @@ void	here_doc(char *delimiter)
 	close(pipe_fd[0]);
 }
 
+static void	keeping_up_main(char *av[], int *fd, int *i, int ac)
+{
+	if (!ft_strcmp(av[1], "here_doc"))
+	{
+		here_doc(av[2]);
+		fd[1] = open(av[ac - 1], O_CREAT | O_RDWR | O_APPEND, 0644);
+		*i = 3;
+	}
+	else
+	{
+		fd[0] = open(av[1], O_RDONLY);
+		dup2(fd[0], 0);
+		fd[1] = open(av[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
+		*i = 2;
+	}
+}
+
 int	main(int ac, char *av[], char *envp[])
 {
 	int		i;
@@ -44,19 +61,8 @@ int	main(int ac, char *av[], char *envp[])
 	int		fd[2];
 	char	**last_command;
 
-	if (!ft_strcmp(av[1], "here_doc"))
-	{
-		here_doc(av[2]);
-		fd[1] = open(av[ac - 1], O_CREAT | O_RDWR | O_APPEND, 0644);
-		i = 3;
-	}
-	else
-	{
-		fd[0] = open(av[1], O_RDONLY);
-		dup2(fd[0], 0);
-		fd[1] = open(av[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
-		i = 2;
-	}
+	// if (ac )
+	keeping_up_main(av, fd, &i, ac);
 	last_command = ft_split(av[ac - 2], ' ');
 	while (i < ac - 2)
 	{
