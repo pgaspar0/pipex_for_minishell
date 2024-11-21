@@ -6,7 +6,7 @@
 /*   By: jorcarva <jorcarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 19:05:09 by pgaspar           #+#    #+#             */
-/*   Updated: 2024/11/21 12:51:02 by jorcarva         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:24:49 by jorcarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	cuta_in_between(char **command, char **envp, int *pipe_fd)
 	caminho = get_caminho(path_copy, command);
 	if (!caminho)
 	{
-		perror("Error");
+		perror("\033[1;31mError\033[0m");
 		free_matrix(path_copy);
 		free_matrix(command);
 		exit(1);
