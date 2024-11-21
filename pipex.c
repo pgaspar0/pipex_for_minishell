@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jorcarva <jorcarva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pgaspar <pgaspar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:47:55 by pgaspar           #+#    #+#             */
-/*   Updated: 2024/11/21 18:30:52 by jorcarva         ###   ########.fr       */
+/*   Updated: 2024/11/21 19:23:58 by pgaspar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,16 @@ int	main(int ac, char *av[], char *envp[])
 	int		i;
 	int		fpid;
 	int		fd[2];
+	char	**command;
 	char	**last_command;
 
-	// if (ac )
 	keeping_up_main(av, fd, &i, ac);
 	last_command = ft_split(av[ac - 2], ' ');
 	while (i < ac - 2)
 	{
-		forka(ft_split(av[i], ' '), envp);
+		command = ft_split(av[i], ' ');
+		forka(command, envp);
+		free_matriz(command);
 		i++;
 	}
 	fpid = fork();
@@ -74,5 +76,7 @@ int	main(int ac, char *av[], char *envp[])
 		cuta_the_second(last_command, envp, fd[1]);
 	else
 		waitpid(fpid, NULL, 0);
+	free_matriz(command);
+	free_matriz(last_command);
 	return (0);
 }
