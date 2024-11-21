@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pgaspar <pgaspar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/09 14:49:03 by pgaspar           #+#    #+#             */
-/*   Updated: 2024/11/18 18:08:13 by pgaspar          ###   ########.fr       */
+/*   Created: 2024/11/19 14:09:52 by pgaspar           #+#    #+#             */
+/*   Updated: 2024/11/20 18:22:09 by pgaspar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#include "libft.h"
 
-# include "./libft/libft.h"
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <unistd.h>
-
-void	forka(char **command, char **envp);
-void	cuta_the_second(char **command, char **envp, int fd);
-void	cuta_in_between(char **command, char **envp, int *pipe_fd);
-
-#endif
+int	ft_strcmp(char *s1, char *s2)
+{
+	int i;
+    
+	i = 0;
+	while (s2[i])
+	{
+		if (s2[i] != s1[i])
+			return (s2[i] - s1[i]);
+		i++;
+	}
+	return (s2[i] - s1[i]);
+}
