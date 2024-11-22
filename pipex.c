@@ -6,7 +6,7 @@
 /*   By: jorcarva <jorcarva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:47:55 by pgaspar           #+#    #+#             */
-/*   Updated: 2024/11/22 10:13:20 by jorcarva         ###   ########.fr       */
+/*   Updated: 2024/11/22 10:15:46 by jorcarva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,9 @@ int	main(int ac, char *av[], char *envp[])
 	char	**command;
 	char	**last_command;
 
-	if (ac)
-		keeping_up_main(av, fd, &i, ac);
+	if (ac < 5)
+		return (1);
+	keeping_up_main(av, fd, &i, ac);
 	last_command = ft_split(av[ac - 2], ' ');
 	while (i < ac - 2)
 	{
