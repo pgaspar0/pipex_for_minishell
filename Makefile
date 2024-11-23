@@ -14,6 +14,8 @@ ${NAME}: ${OBJS}
 all: ${NAME}
 
 
+bonus: re
+
 clean:
 	@make clean -s -C libft MAKEFLAGS=-silent
 	@rm -rf ${OBJS}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jorcarva <jorcarva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gamekiller2111 <gamekiller2111@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 14:47:55 by pgaspar           #+#    #+#             */
-/*   Updated: 2024/11/22 10:15:46 by jorcarva         ###   ########.fr       */
+/*   Updated: 2024/11/24 00:08:06 by gamekiller2      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,20 @@ static void	keeping_up_main(char *av[], int *fd, int *i, int ac)
 	}
 	else
 	{
-		fd[0] = open(av[1], O_RDONLY);
-		if (fd[0] == -1)
-			exit(EXIT_FAILURE);
-		dup2(fd[0], 0);
 		fd[1] = open(av[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (fd[1] == -1)
 		{
-			close(fd[0]);
+			perror("Error");
 			exit(EXIT_FAILURE);
 		}
+		fd[0] = open(av[1], O_RDONLY);
+		if (fd[0] == -1)
+		{
+			close(fd[1]);
+			perror("Error");
+			exit(EXIT_FAILURE);
+		}
+		dup2(fd[0], 0);
 		*i = 2;
 	}
 }
@@ -77,7 +81,7 @@ int	main(int ac, char *av[], char *envp[])
 	{
 		command = ft_split(av[i], ' ');
 		forka(command, envp);
-		free_matriz(command);
+		free_matrix(command);
 		i++;
 	}
 	fpid = fork();
@@ -85,7 +89,6 @@ int	main(int ac, char *av[], char *envp[])
 		cuta_the_second(last_command, envp, fd[1]);
 	else
 		waitpid(fpid, NULL, 0);
-	free_matriz(command);
-	free_matriz(last_command);
+	free_matrix(last_command);
 	return (0);
 }
