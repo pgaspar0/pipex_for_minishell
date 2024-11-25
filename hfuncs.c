@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hfuncs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jorcarva <jorcarva@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pgaspar <pgaspar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 19:05:09 by pgaspar           #+#    #+#             */
-/*   Updated: 2024/11/21 19:24:49 by jorcarva         ###   ########.fr       */
+/*   Updated: 2024/11/25 12:36:18 by pgaspar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*get_caminho(char **path_copy, char **command)
 	return (NULL);
 }
 
-// redireciona de uma lado da pipe para outro de formas a cada 
+// redireciona de uma lado da pipe para outro de formas a cada
 // processo transferir a informação um para o outro
 void	cuta_in_between(char **command, char **envp, int *pipe_fd)
 {
@@ -70,8 +70,8 @@ void	cuta_in_between(char **command, char **envp, int *pipe_fd)
 	{
 		perror("\033[1;31mError\033[0m");
 		free_matrix(path_copy);
-		free_matrix(command);
-		exit(1);
+		//free_matrix(command);
+		return ;
 	}
 	dup2(pipe_fd[1], 1);
 	close(pipe_fd[0]);
