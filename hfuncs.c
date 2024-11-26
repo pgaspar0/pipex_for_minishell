@@ -6,7 +6,7 @@
 /*   By: pgaspar <pgaspar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 19:05:09 by pgaspar           #+#    #+#             */
-/*   Updated: 2024/11/25 12:36:18 by pgaspar          ###   ########.fr       */
+/*   Updated: 2024/11/26 17:36:19 by pgaspar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	forka(char **command, char **envp)
 	if (pipe(pipe_fd) == -1)
 	{
 		perror("Error");
-		exit(1);
+		return ;
 	}
 	fpid = fork();
 	if (fpid == 0)
@@ -39,13 +39,15 @@ char	*get_caminho(char **path_copy, char **command)
 {
 	int		i;
 	int		status;
+	char	*temp;
 	char	*caminho;
 
 	i = 0;
 	while (path_copy[i])
 	{
-		caminho = ft_strjoin(path_copy[i], "/");
-		caminho = ft_strjoin(caminho, command[0]);
+		temp = ft_strjoin(path_copy[i], "/");
+		caminho = ft_strjoin(temp, command[0]);
+		free(temp);
 		status = access(caminho, X_OK | F_OK);
 		if (status == 0)
 			return (caminho);
@@ -70,7 +72,6 @@ void	cuta_in_between(char **command, char **envp, int *pipe_fd)
 	{
 		perror("\033[1;31mError\033[0m");
 		free_matrix(path_copy);
-		//free_matrix(command);
 		return ;
 	}
 	dup2(pipe_fd[1], 1);
@@ -92,8 +93,7 @@ void	cuta_the_second(char **command, char **envp, int fd)
 	{
 		perror("Error");
 		free_matrix(path_copy);
-		free_matrix(command);
-		exit(1);
+		return ;
 	}
 	dup2(fd, 1);
 	close(fd);
